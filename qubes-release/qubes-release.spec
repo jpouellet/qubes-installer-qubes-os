@@ -20,6 +20,7 @@ Provides:	fedora-release = %{fedora_base_version}-%{release}
 Provides:	redhat-release = %{fedora_base_version}-%{release}
 Provides:	system-release = %{fedora_base_version}-%{release}
 Obsoletes:	qubes-dom0-dist-upgrade <= 3.2
+BuildRequires:	pandoc
 BuildRoot:	%{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:	noarch
 
@@ -67,6 +68,9 @@ PRETTY_NAME="Qubes %{version} (%{release_name})"
 ANSI_COLOR="0;31"
 CPE_NAME="cpe:/o:ITL:qubes:%{version}"
 EOF
+
+# Generate HTML version of release notes
+pandoc -s -f markdown -t html README.Qubes-Release-Notes > README.Qubes-Release-Notes.html
 
 install -d -m 755 $RPM_BUILD_ROOT/etc/pki/rpm-gpg
 
@@ -129,6 +133,7 @@ rm -rf $RPM_BUILD_ROOT
 %files notes
 %defattr(-,root,root,-)
 %doc README.Qubes-Release-Notes
+%doc README.Qubes-Release-Notes.html
 
 %changelog
 * Wed Jan 13 2010 Tomasz Sterna <smoku@xiaoka.com> - 1
